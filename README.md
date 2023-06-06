@@ -6,7 +6,7 @@ Este repositório contém a configuração que normalmente uso no ZSH.
 
 Para instalar, execute:
 
-```powershell
+```bash
 # Clonar repo com os submodulos do git
 git clone --recursive https://github.com/cassiofariasmachado/zsh-config.git
 
