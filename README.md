@@ -13,7 +13,7 @@ git clone --recursive https://github.com/cassiofariasmachado/zsh-config.git
 # Acessar a pasta do repo
 cd zsh-config
 
-# Copiar configurações para pasta do Powershell
+# Executar o script de instalação
 ./install.sh
 ```
 
