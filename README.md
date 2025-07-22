@@ -14,7 +14,12 @@ git clone --recursive https://github.com/cassiofariasmachado/zsh-config.git
 cd zsh-config
 
 # Executar o script de instalação
+
+## No Linux
 ./install.sh
+
+## No MacOS (brew e zsh já vem instalados)
+./install.sh --skip-brew --skip-zsh
 ```
 
 ## Referências
