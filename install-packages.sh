@@ -4,8 +4,13 @@ brew install wget --quiet
 brew install gh --quiet
 brew install bitwarden --quiet
 brew install git --quiet
+brew install git-delta --quiet
+brew install go --quiet
 brew install gcc --quiet
 brew install bat --quiet
+brew install kubectl --quiet
+brew install helm --quiet
+brew install k9s --quiet
 brew install oh-my-posh --quiet
 brew install --cask microsoft-edge --quiet
 brew install --cask visual-studio-code --quiet
