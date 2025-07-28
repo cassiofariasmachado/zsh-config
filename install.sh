@@ -52,8 +52,6 @@ if [ "$SKIP_INSTALL_BREW" = false ]; then
 
   case `uname` in
     Linux)
-      # Commands for Linux
-
       eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     ;;
   esac
@@ -74,14 +72,14 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 echo "✨ instalando oh-my-posh"
 case `uname` in
-    Linux)
-      sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
-      sudo chmod +x /usr/local/bin/oh-my-posh
-    ;;
-    Darwin)
-      brew install oh-my-posh
-    ;;
-  esac
+  Linux)
+    sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
+    sudo chmod +x /usr/local/bin/oh-my-posh
+  ;;
+  Darwin)
+    brew install oh-my-posh
+  ;;
+esac
 
 echo "🎨 copiando tema"
 cp -r Modules/omp-themes/default.omp.json ~/.
