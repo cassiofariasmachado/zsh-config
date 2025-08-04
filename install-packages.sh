@@ -24,6 +24,7 @@ brew install --cask kitty --quiet
 brew install --cask font-meslo-lg-nerd-font --quiet
 brew install --cask font-jetbrains-mono --quiet
 brew install --cask docker-desktop --quiet
+brew install --cask discord --quiet
 
 case `uname` in
   Linux)
