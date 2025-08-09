@@ -1,37 +1,113 @@
-# !/bin/bash
+#!/bin/bash
 
-brew install wget --quiet
-brew install gh --quiet
-brew install bitwarden --quiet
-brew install git --quiet
-brew install git-delta --quiet
-brew install gcc --quiet
-brew install bat --quiet
-brew install kubectl --quiet
-brew install helm --quiet
-brew install k9s --quiet
-brew install yq --quiet
-brew install jq --quiet
-brew install oh-my-posh --quiet
-brew install --cask microsoft-edge --quiet
-brew install --cask visual-studio-code --quiet
-brew install go --quiet
-brew install dotnet --quiet
-brew install --cask spotify --quiet
-brew install --cask google-drive --quiet
-brew install --cask displaylink --quiet
-brew install --cask kitty --quiet
-brew install --cask font-meslo-lg-nerd-font --quiet
-brew install --cask font-jetbrains-mono --quiet
-brew install --cask docker-desktop --quiet
-brew install --cask discord --quiet
+# Format: "name:scope"
+# scope can be 'all' (installed always) or 'personal' (skipped with --work flag)
+packages=(
+    "wget:all"
+    "gh:all"
+    "bitwarden:all"
+    "git:all"
+    "git-delta:all"
+    "gcc:all"
+    "bat:all"
+    "kubectl:all"
+    "helm:all"
+    "k9s:all"
+    "yq:all"
+    "jq:all"
+    "oh-my-posh:all"
+    "go:all"
+    "dotnet:all"
+    "neovim:all"
+    "ollama:all"
+    "htop:all"
+)
 
-case `uname` in
+# Format: "name:scope"
+# scope can be 'all' (installed always) or 'personal' (skipped with --work flag)
+casks=(
+    "microsoft-edge:personal"
+    "visual-studio-code:personal"
+    "spotify:personal"
+    "google-drive:personal"
+    "discord:personal"
+    "displaylink:all"
+    "kitty:all"
+    "font-meslo-lg-nerd-font:all"
+    "font-jetbrains-mono:all"
+    "docker-desktop:all"
+)
+
+WORK_MODE=false
+SHOW_HELP=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --work | -w)
+      WORK_MODE=true
+      shift
+      ;;
+    --help | -h)
+      SHOW_HELP=true
+      break
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+
+if $SHOW_HELP; then
+  cat << EOF
+Installs brew packages and casks.
+
+Usage:
+  $(readlink -f "$0") [flags]
+
+Flags:
+  --work-mode, -w            Skip installation of zsh
+  -h, --help                 Show help
+EOF
+  exit 0
+fi
+
+echo "✨ installing brew packages"
+for item in "${packages[@]}"; do
+    package_name="${item%%:*}"
+    scope="${item##*:}"
+
+    if [[ "$scope" == "all" ]] || ( [[ "$scope" == "personal" ]] && [[ "$WORK_MODE" == false ]] ); then
+        echo "⏳ installing package: $package_name"
+        brew install "$package_name" --quiet
+    else
+        echo "⏭️ skipping $scope package: $package_name"
+    fi
+done
+
+echo "✨ installing brew casks"
+for item in "${casks[@]}"; do
+    cask_name="${item%%:*}"
+    scope="${item##*:}"
+
+    if [[ "$scope" == "all" ]] || ( [[ "$scope" == "personal" ]] && [[ "$WORK_MODE" == false ]] ); then
+        echo "⏳ installing cask: $cask_name..."
+        brew install --cask "$cask_name" --quiet
+    else
+        echo "⏭️ skipping $scope cask: $cask_name"
+    fi
+done
+
+# --- OS-specific installations ---
+case $(uname) in
   Linux)
     # Specific packages for Linux
+    # echo "✨ installing specific Linux packages"
   ;;
   Darwin)
     # Specific packages for MacOS
+    echo "✨ installing specific MacOS packages"
     brew install watch --quiet
   ;;
 esac
+
+echo "✅ installation completed"

@@ -28,7 +28,6 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
-eval set -- "$PARSED_ARGS"
 
 if $SHOW_HELP; then
   cat << EOF
@@ -47,7 +46,7 @@ EOF
 fi
 
 if [ "$SKIP_INSTALL_BREW" = false ]; then
-  echo "✨ instalando brew"
+  echo "✨ installing brew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   case `uname` in
@@ -58,19 +57,19 @@ if [ "$SKIP_INSTALL_BREW" = false ]; then
 fi
 
 if [ "$SKIP_INSTALL_ZSH" = false ]; then
- echo "✨ instalando zsh"
+ echo "✨ installing zsh"
   brew install zsh
 fi
 
 if [ "$SKIP_INSTALL_PACKAGES" = false ]; then
-  echo "✨ instalando packages"
+  echo "✨ installing packages"
   sh ./install-packages.sh
 fi
 
-echo "✨ instalando oh-my-zsh"
+echo "✨ installing oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-echo "✨ instalando oh-my-posh"
+echo "✨ installing oh-my-posh"
 case `uname` in
   Linux)
     sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
@@ -81,5 +80,5 @@ case `uname` in
   ;;
 esac
 
-echo "🎨 copiando tema"
+echo "🎨 copying oh-my-posh theme"
 cp -r Modules/omp-themes/default.omp.json ~/.
