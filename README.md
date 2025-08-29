@@ -1,30 +1,35 @@
-# 🚀 Configuração do ZSH
+# 🚀 ZSH Configuration
 
-Este repositório contém a configuração que normalmente uso no ZSH.
+This repository contains the configuration I usually use for ZSH.
 
-## Instalação
+## Installation
 
-Para instalar, execute:
+To install:
 
-```bash
-# Clonar repo com os submodulos do git
-git clone --recursive https://github.com/cassiofariasmachado/zsh-config.git
+1. Clone repo with `git submodules`:
 
-# Acessar a pasta do repo
-cd zsh-config
+    ```bash
+    git clone --recursive https://github.com/cassiofariasmachado/zsh-config.git
+    ```
 
-# Executar o script de instalação
+2. Go to the repo folder:
+    ```
+    cd zsh-config
+    ```
 
-## No Linux
-./install.sh
+3. Run the installation script:
+    ```bash
+    # On Linux
+    ./install.sh
 
-## No MacOS (brew e zsh já vem instalados)
-./install.sh --skip-brew --skip-zsh
-```
+    # On MacOS (brew and zsh are already installed)
+    ./install.sh --skip-brew --skip-zsh
+    ```
 
-## Referências
+4. Configure dotfiles as explained [here](https://github.com/cassiofariasmachado/dotfiles).
 
-Baseado nas configurações das feras abaixo:
+## References
 
-- [Posh files](https://github.com/jfbueno/posh-files.git) do [Jeferson Bueno](https://github.com/jfbueno)
-- [Posh files](https://github.com/giggio/poshfiles) do [Giovanni Bassi](https://github.com/giggio)
+- Inspired by the configurations from the folks below:
+  - [posh-files](https://github.com/jfbueno/posh-files.git) by [Jeferson Bueno](https://github.com/jfbueno)
+  - [poshfiles](https://github.com/giggio/poshfiles) by [Giovanni Bassi](https://github.com/giggio)
