@@ -81,4 +81,4 @@ case `uname` in
 esac
 
 echo "🎨 copying oh-my-posh theme"
-cp -r Modules/omp-themes/default.omp.json ~/.
+cp -r external/omp-themes/default.omp.json ~/.
