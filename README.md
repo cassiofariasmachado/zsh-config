@@ -4,7 +4,7 @@ This repository contains the configuration I usually use for ZSH.
 
 ## Installation
 
-### (Recommended) Option 1: Install using dotfiles
+### Option 1: Using dotfiles (recommended)
 
 * Configured using dotfiles as explained [here](https://github.com/cassiofariasmachado/dotfiles).
 
@@ -31,8 +31,6 @@ To install:
     # On MacOS (brew and zsh are already installed)
     ./install.sh --skip-brew --skip-zsh
     ```
-
-4. Configure dotfiles as explained [here](https://github.com/cassiofariasmachado/dotfiles).
 
 ## References
 
