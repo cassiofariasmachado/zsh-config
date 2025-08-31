@@ -1,0 +1,14 @@
+# +-------------------+
+# | Kubectl Functions |
+# +-------------------+
+
+# Usage: kdecode <secret_name> <namespace>
+function kdecode () {
+  secret=$1
+  namespace=$2
+  for row in $(kubectl get secret "${secret}" -o json -n "${namespace}" | jq -c '.data | to_entries[]'); do
+    key=$(echo "${row}" | jq -r '.key')
+    decoded=$(echo "${row}" | jq -r '.value' | base64 --decode)
+    echo "${key}: ${decoded}"
+  done
+}

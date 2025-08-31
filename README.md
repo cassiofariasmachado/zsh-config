@@ -4,6 +4,12 @@ This repository contains the configuration I usually use for ZSH.
 
 ## Installation
 
+### (Recommended) Option 1: Install using dotfiles
+
+* Configured using dotfiles as explained [here](https://github.com/cassiofariasmachado/dotfiles).
+
+### Option 2: Install directly
+
 To install:
 
 1. Clone repo with `git submodules`:

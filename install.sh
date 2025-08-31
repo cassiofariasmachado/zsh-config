@@ -2,6 +2,7 @@
 
 SKIP_INSTALL_BREW=false
 SKIP_INSTALL_ZSH=false
+SKIP_INSTALL_ZSH_FILES=false
 SKIP_INSTALL_PACKAGES=false
 SHOW_HELP=false
 
@@ -13,6 +14,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --skip-install-zsh | --skip-zsh)
       SKIP_INSTALL_ZSH=true
+      shift
+      ;;
+    --skip-install-zsh-file | --skip-zsh-files)
+      SKIP_INSTALL_ZSH_FILES=true
       shift
       ;;
     --skip-install-packages | --skip-packages)
@@ -61,6 +66,16 @@ if [ "$SKIP_INSTALL_ZSH" = false ]; then
   brew install zsh
 fi
 
+if [ "$SKIP_INSTALL_ZSH_FILES" = false ]; then
+  echo "✨ installing zsh files"
+
+  mkdir -p ~/.config/zsh
+
+  cp .aliases ~/.config/zsh/.aliases
+  cp .functions ~/.config/zsh/.functions
+  cp .zshrc ~/.zshrc
+fi
+
 if [ "$SKIP_INSTALL_PACKAGES" = false ]; then
   echo "✨ installing packages"
   sh ./install-packages.sh
@@ -80,5 +95,5 @@ case `uname` in
   ;;
 esac
 
-echo "🎨 copying oh-my-posh theme"
-cp -r external/omp-themes/default.omp.json ~/.
+echo "🎨 downloading oh-my-posh theme"
+curl -fsSL https://raw.githubusercontent.com/cassiofariasmachado/omp-themes/refs/heads/main/default.omp.json -o ~/default.omp.json

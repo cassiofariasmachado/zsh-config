@@ -1,0 +1,23 @@
+# +--------------+
+# | Custom Alias |
+# +--------------+
+
+alias ll="ls -alF"
+alias la="ls -A"
+alias l="ls -CF"
+
+# +----------------------+
+# | GitHub Copilot Alias |
+# +----------------------+
+
+eval "$(gh copilot alias -- zsh)"
+
+# +---------------+
+# | Kubectl Alias |
+# +---------------+
+alias k="kubectl"
+
+# +------------+
+# | Helm Alias |
+# +------------+
+alias h="helm"
