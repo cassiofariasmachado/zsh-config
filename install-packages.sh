@@ -21,6 +21,7 @@ packages=(
     "neovim:all"
     "ollama:all"
     "htop:all"
+    "sass/sass/sass:all"
 )
 
 # Format: "name:scope"
@@ -36,6 +37,9 @@ casks=(
     "font-meslo-lg-nerd-font:all"
     "font-jetbrains-mono:all"
     "docker-desktop:all"
+    "jetbrains-toolbox:all"
+    "powershell:all"
+    "rectangle:all"
 )
 
 WORK_MODE=false
@@ -65,7 +69,7 @@ Usage:
   $(readlink -f "$0") [flags]
 
 Flags:
-  --work-mode, -w            Skip installation of zsh
+  --work-mode, -w            Work mode: skip personal packages
   -h, --help                 Show help
 EOF
   exit 0
