@@ -22,6 +22,7 @@ packages=(
     "ollama:all"
     "htop:all"
     "sass/sass/sass:all"
+    "uv:all"
 )
 
 # Format: "name:scope"
