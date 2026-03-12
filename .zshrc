@@ -3,7 +3,6 @@ export ZSH="$HOME/.dotfiles"
 # +---------------+
 # | Setup Plugins |
 # +---------------+
-
 plugins=(
   git
   docker
@@ -14,46 +13,39 @@ plugins=(
 # +---------------------------+
 # | Setup Aliases & Functions |
 # +---------------------------+
-
 source ~/.config/zsh/.aliases
 source ~/.config/zsh/.functions
 
-# +---------+
-# | Kubectl |
-# +---------+
+echo "🧰 Imported alias and functions"
 
-## Export all kubeconfigs from ~/.kube/configs
-KUBECONFIG_DIR=~/.kube/configs
-export KUBECONFIG=$(find $KUBECONFIG_DIR -type f -name "*.yaml" -maxdepth 2 | tr '\n' ':' | sed 's/:$//')
+# +---------------------+
+# | Setup Env Variables |
+# +---------------------+
+if [ -f ~/.config/zsh/.env-variables ]; then
+  source ~/.config/zsh/.env-variables
+
+  echo "⚙️ Configured environment variables"
+fi
 
 # +-----+
 # | NVM |
 # +-----+
+if [ -d "$NVM_DIR" ]; then
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  echo "🛠️ Initialized nvm"
+fi
 
-# +------+
-# | Go   |
-# +------+
+# +-------+
+# | Pyenv |
+# +-------+
+if command -v pyenv >/dev/null 2>&1; then
+  eval "$(pyenv init - zsh)"
+  eval "$(pyenv init --path)"
 
-export GOPATH="$HOME/go"
-export GOBIN="$GOPATH/bin"
-
-# +------+
-# | PATH |
-# +------+
-
-# Krew
-export PATH="$PATH:${KREW_ROOT:-$HOME/.krew}/bin"
-
-# Pipx
-export PATH="$PATH:/Users/cassio/.local/bin"
-
-# Go
-export PATH="$PATH:$GOBIN"
-
+  echo "🛠️ Initialized pyenv"
+fi
 
 # +-------------------+
 # | Specific OS stuff |
@@ -77,5 +69,4 @@ case `uname` in
     eval "$(oh-my-posh init zsh --config ~/default.omp.json)"
   ;;
 esac
-
 
