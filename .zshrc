@@ -16,7 +16,7 @@ plugins=(
 source ~/.config/zsh/.aliases
 source ~/.config/zsh/.functions
 
-echo "🧰 Imported alias and functions"
+echo "🧰 imported alias and functions"
 
 # +---------------------+
 # | Setup Env Variables |
@@ -24,7 +24,7 @@ echo "🧰 Imported alias and functions"
 if [ -f ~/.config/zsh/.env-variables ]; then
   source ~/.config/zsh/.env-variables
 
-  echo "⚙️ Configured environment variables"
+  echo "⚙️ configured environment variables"
 fi
 
 # +-----+
@@ -34,7 +34,7 @@ if [ -d "$NVM_DIR" ]; then
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-  echo "🛠️ Initialized nvm"
+  echo "🛠️ initialized nvm"
 fi
 
 # +-------+
@@ -44,7 +44,7 @@ if command -v pyenv >/dev/null 2>&1; then
   eval "$(pyenv init - zsh)"
   eval "$(pyenv init --path)"
 
-  echo "🛠️ Initialized pyenv"
+  echo "🛠️ initialized pyenv"
 fi
 
 # +-------------------+

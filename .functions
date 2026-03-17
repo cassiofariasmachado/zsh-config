@@ -1,14 +1,119 @@
 # +-------------------+
+# | Utils Functions |
+# +-------------------+
+
+function require_commands () {
+  local command_name
+
+  for command_name in "$@"; do
+    if ! command -v "${command_name}" >/dev/null 2>&1; then
+      echo "Error: required command not found: ${command_name}" >&2
+      return 1
+    fi
+  done
+}
+
+function has_command () {
+  command -v "$1" >/dev/null 2>&1
+}
+
+function update_packages () {
+  local os_name
+
+  os_name=$(uname -s)
+
+  case "${os_name}" in
+    Linux|Darwin)
+      if has_command brew; then
+        echo "✨ updating Homebrew packages"
+        if ! brew update; then
+          echo "Error: failed to update Homebrew packages" >&2
+          return 1
+        fi
+
+        if ! brew upgrade; then
+          echo "Error: failed to upgrade Homebrew packages" >&2
+          return 1
+        fi
+      elif has_command apt-get; then
+        echo "✨ updating apt packages"
+        if ! sudo apt-get update; then
+          echo "Error: failed to update apt package lists" >&2
+          return 1
+        fi
+
+        if ! sudo apt-get upgrade -y; then
+          echo "Error: failed to upgrade apt packages" >&2
+          return 1
+        fi
+      else
+        echo "Error: no supported package manager found (brew or apt-get)." >&2
+        return 1
+      fi
+      ;;
+    *)
+      echo "Error: unsupported operating system: ${os_name}" >&2
+      return 1
+      ;;
+  esac
+}
+
+
+# +-------------------+
 # | Kubectl Functions |
 # +-------------------+
 
-# Usage: kdecode <secret_name> <namespace>
 function kdecode () {
-  secret=$1
-  namespace=$2
-  for row in $(kubectl get secret "${secret}" -o json -n "${namespace}" | jq -c '.data | to_entries[]'); do
-    key=$(echo "${row}" | jq -r '.key')
-    decoded=$(echo "${row}" | jq -r '.value' | base64 --decode)
-    echo "${key}: ${decoded}"
+  local secret=""
+  local namespace="default"
+  local secret_json
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -h|--help)
+        echo "Usage: kdecode <secret_name> -n <namespace>"
+        return 0
+        ;;
+      -n|--namespace)
+        if [[ -z "$2" || "$2" == -* ]]; then
+          echo "Usage: kdecode <secret_name> -n <namespace>" >&2
+          return 1
+        fi
+
+        namespace="$2"
+        shift 2
+        ;;
+      *)
+        if [[ -n "${secret}" ]]; then
+          echo "Usage: kdecode <secret_name> -n <namespace>" >&2
+          return 1
+        fi
+
+        secret="$1"
+        shift
+        ;;
+      -*)
+        echo "Usage: kdecode <secret_name> -n <namespace>" >&2
+        return 1
+        ;;
+    esac
   done
+
+  if [[ -z "${secret}" || -z "${namespace}" ]]; then
+    echo "Usage: kdecode <secret_name> -n <namespace>" >&2
+    return 1
+  fi
+
+  if ! require_commands kubectl jq base64; then
+    return 1
+  fi
+
+  if ! secret_json=$(kubectl get secret "${secret}" -n "${namespace}" -o json); then
+    return 1
+  fi
+
+  jq -r '.data // {} | to_entries[] | [.key, .value] | @tsv' <<< "${secret_json}" |
+    while IFS=$'\t' read -r key encoded_value; do
+      printf '%s: %s\n' "${key}" "$(printf '%s' "${encoded_value}" | base64 --decode)"
+    done
 }
