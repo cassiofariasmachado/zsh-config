@@ -1,4 +1,4 @@
-# !/bin/bash
+#!/bin/bash
 
 SKIP_INSTALL_BREW=false
 SKIP_INSTALL_ZSH=false
@@ -54,7 +54,7 @@ if [ "$SKIP_INSTALL_BREW" = false ]; then
   echo "✨ installing brew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-  case `uname` in
+  case $(uname) in
     Linux)
       eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     ;;
@@ -85,7 +85,7 @@ echo "✨ installing oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 echo "✨ installing oh-my-posh"
-case `uname` in
+case $(uname) in
   Linux)
     sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
     sudo chmod +x /usr/local/bin/oh-my-posh

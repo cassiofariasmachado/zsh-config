@@ -81,7 +81,7 @@ for item in "${packages[@]}"; do
     package_name="${item%%:*}"
     scope="${item##*:}"
 
-    if [[ "$scope" == "all" ]] || ( [[ "$scope" == "personal" ]] && [[ "$WORK_MODE" == false ]] ); then
+    if [[ "$scope" == "all" ]] || { [[ "$scope" == "personal" ]] && [[ "$WORK_MODE" == false ]]; }; then
         echo "⏳ installing package: $package_name"
         brew install "$package_name" --quiet
     else
@@ -94,7 +94,7 @@ for item in "${casks[@]}"; do
     cask_name="${item%%:*}"
     scope="${item##*:}"
 
-    if [[ "$scope" == "all" ]] || ( [[ "$scope" == "personal" ]] && [[ "$WORK_MODE" == false ]] ); then
+    if [[ "$scope" == "all" ]] || { [[ "$scope" == "personal" ]] && [[ "$WORK_MODE" == false ]]; }; then
         echo "⏳ installing cask: $cask_name..."
         brew install --cask "$cask_name" --quiet
     else
