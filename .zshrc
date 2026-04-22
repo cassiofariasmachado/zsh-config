@@ -27,6 +27,18 @@ if [ -f ~/.config/zsh/.env-variables ]; then
   echo "⚙️ configured environment variables"
 fi
 
+# +-----------------+
+# | ZSH Completions |
+# +-----------------+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+
+  echo "🛠️ initialized zsh completions"
+fi
+
 # +-----+
 # | NVM |
 # +-----+
