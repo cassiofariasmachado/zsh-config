@@ -60,6 +60,85 @@ function update_packages () {
 
 jwt() { jq -R 'split(".") | .[1] | @base64d | fromjson' <<< $1; }
 
+function npmrc() {
+  local profile_dir="$HOME/.config/npm/profiles"
+  local profile="$1"
+
+  if [[ ! -d "$profile_dir" ]]; then
+    echo "Error: profiles directory not found: ${profile_dir}" >&2
+    return 1
+  fi
+
+  local -a available_profiles
+  available_profiles=($(ls "$profile_dir" 2>/dev/null))
+
+  if [[ ${#available_profiles[@]} -eq 0 ]]; then
+    echo "Error: no profiles found in ${profile_dir}" >&2
+    return 1
+  fi
+
+  local _npmrc_list_profiles() {
+    local p
+    for p in "${available_profiles[@]}"; do
+      echo "  - ${p}"
+    done
+  }
+
+  case "$profile" in
+    ""|"-h"|"--help")
+      echo "Usage: npmrc <profile|status>"
+      echo "Available profiles:"
+      _npmrc_list_profiles
+      return 0
+      ;;
+    status)
+      echo "registry:      $(npm config get registry)"
+      echo "@sap:registry: $(npm config get @sap:registry 2>/dev/null || echo 'not set')"
+      return 0
+      ;;
+    *)
+      if [[ ! -f "$profile_dir/$profile" ]]; then
+        echo "Error: unknown profile '${profile}'" >&2
+        echo "Available profiles:" >&2
+        _npmrc_list_profiles >&2
+        return 1
+      fi
+
+      cp "$profile_dir/$profile" "$HOME/.npmrc"
+      echo "Switched to npm profile: ${profile}"
+      ;;
+  esac
+}
+
+function npm_update_global() {
+  if ! require_commands npm jq; then
+    return 1
+  fi
+
+  local -a packages
+  packages=($(npm list -g --depth=0 --json 2>/dev/null | jq -r '.dependencies | keys[]'))
+
+  if [[ ${#packages[@]} -eq 0 ]]; then
+    echo "No global packages found."
+    return 0
+  fi
+
+  local pkg failed=0 skipped=0 updated=0
+
+  for pkg in "${packages[@]}"; do
+    echo "Updating ${pkg}..."
+    if npm update -g "$pkg" 2>/dev/null; then
+      (( updated++ ))
+    else
+      echo "  ⚠ Skipped: ${pkg} (not found or access denied)"
+      (( skipped++ ))
+    fi
+  done
+
+  echo ""
+  echo "Done. Updated: ${updated}, Skipped: ${skipped}"
+}
+
 # +-------------------+
 # | Kubectl Functions |
 # +-------------------+
