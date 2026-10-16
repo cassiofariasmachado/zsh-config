@@ -68,6 +68,14 @@ if command -v atuin >/dev/null 2>&1; then
   echo "📝 initialized atuin"
 fi
 
+
+# +-------+
+# | Kitty |
+# +-------+
+if [ -n "$KITTY_INSTALLATION_DIR" ]; then
+    source "$KITTY_INSTALLATION_DIR/shell-integration/zsh/kitty.zsh"
+fi
+
 # +-------------------+
 # | Specific OS stuff |
 # +-------------------+
